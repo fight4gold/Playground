@@ -5,12 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$USER_HOME$/opt/gradle-1.10" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-          </set>
-        </option>
+        <option name="gradleHome" value="C:/Apps/gradle-1.11" />
       </GradleProjectSettings>
     </option>
   </component>
