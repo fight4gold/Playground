@@ -9,7 +9,6 @@ import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
 import net.fratzlow.disruptor.model.Chassis;
 import net.fratzlow.disruptor.tech.*;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,53 +24,30 @@ public class DisruptorMainTest {
 
     private static final int carsToProduceNo = 5;
 
-    EngineHandler engineHandler;
+    EngineHandler engineHandler = new EngineHandler();
 
-    DriverSeatHandler driverSeatHandler;
-    PassengerSeatHandler passengerSeatHandler;
-    RearSeatHandler rearSeatHandler;
+    DriverSeatHandler driverSeatHandler = new DriverSeatHandler();
+    PassengerSeatHandler passengerSeatHandler = new PassengerSeatHandler();
+    RearSeatHandler rearSeatHandler = new RearSeatHandler();
 
-    FrontDoor_1_Handler doorHandler_1;
-    FrontDoor_2_Handler doorHandler_2;
-    RearDoor_2_Handler doorHandler_4;
-    RearDoor_1_Handler doorHandler_3;
+    FrontDoor_1_Handler doorHandler_1 = new FrontDoor_1_Handler();
+    FrontDoor_2_Handler doorHandler_2 = new FrontDoor_2_Handler();
+    RearDoor_1_Handler doorHandler_3 = new RearDoor_1_Handler();
+    RearDoor_2_Handler doorHandler_4 = new RearDoor_2_Handler();
 
-    BonnetHandler bonnetHandler;
-    PaintHandler paintHandler;
+    BonnetHandler bonnetHandler = new BonnetHandler();
+    PaintHandler paintHandler = new PaintHandler();
 
-    Wheel_1_Handler wheel_1_handler;
-    Wheel_2_Handler wheel_2_handler;
-    Wheel_3_Handler wheel_3_handler;
-    Wheel_4_Handler wheel_4_handler;
-
-    @Before
-    public void init() {
-        mockDisruptorClasses();
-
-        engineHandler = new EngineHandler();
-
-        driverSeatHandler = new DriverSeatHandler();
-        passengerSeatHandler = new PassengerSeatHandler();
-        rearSeatHandler = new RearSeatHandler();
-
-        doorHandler_1 = new FrontDoor_1_Handler();
-        doorHandler_2 = new FrontDoor_2_Handler();
-        doorHandler_3 = new RearDoor_1_Handler();
-        doorHandler_4 = new RearDoor_2_Handler();
-
-        bonnetHandler = new BonnetHandler();
-        paintHandler = new PaintHandler();
-
-        wheel_1_handler = new Wheel_1_Handler();
-        wheel_2_handler = new Wheel_2_Handler();
-        wheel_3_handler = new Wheel_3_Handler();
-        wheel_4_handler = new Wheel_4_Handler();
-    }
+    Wheel_1_Handler wheel_1_handler = new Wheel_1_Handler();
+    Wheel_2_Handler wheel_2_handler = new Wheel_2_Handler();
+    Wheel_3_Handler wheel_3_handler = new Wheel_3_Handler();
+    Wheel_4_Handler wheel_4_handler = new Wheel_4_Handler();
 
 
 
     @Test
     public void testDslWiring() throws InterruptedException {
+        mockDisruptorClasses();
 
         //--------------------------------------------------------------------------------------------------------------
         // Setup Disruptor
@@ -109,17 +85,26 @@ public class DisruptorMainTest {
         Thread.sleep(1000);
     }
 
-    private MockUp<BatchEventProcessor> mockDisruptorClasses() {
-        return new MockUp<BatchEventProcessor>() {
-
-            @Mock
-            public Sequence getSequence(Invocation invocation) {
+    private void mockDisruptorClasses() {
+        new MockUp<BatchEventProcessor>() {
+            @Mock public Sequence getSequence(Invocation invocation) {
                 Sequence sequence = invocation.proceed();
-                System.out.println("=========> getSequence() = " + sequence.get());
+                System.out.println("==> getSequence() = " + sequence.get());
                 return sequence;
             }
         };
+
+        new MockUp<RingBuffer>() {
+            @Mock public Object get(Invocation invocation, long sequence) {
+                Object event = invocation.proceed();
+                System.out.println("==> Return event = " + event + "@" + sequence);
+                return event;
+            }
+        };
     }
+
+
+
 
     private void configureDsl(Disruptor<Chassis> disruptor) {
 
