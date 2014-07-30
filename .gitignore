@@ -1,2 +1,6 @@
-./gradle
-./out
+out/
+tmp/
+build/
+activemq-data/
+.idea/
+.gradle/
