@@ -1,0 +1,20 @@
+<!--
+    external binding declaration file
+-->
+<jxb:bindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb">
+    <jxb:version>1.0</jxb:version>
+    <jxb:bindings schemaLocation="basicTypes.xsd" node="//str:complexType[@name=’BusAttrList’]">
+        <jxb:schemaBindings>
+            <jxb:package name="com.csg.otex.guibe.generatedcmd" />
+        </jxb:schemaBindings>
+        <!--
+        name ... is the name of the schema derived Java interface. It must be a legal Java interface name and must
+                    not contain a package prefix. The package prefix is inherited from the current value of package
+        implClass ... is the name of the implementation class for className and must include the complete
+                        package name
+        -->
+        <jxb:class name = "BusObjType"
+                   implClass="com.csg.otex.guibe.integration.BusObj"
+                   ref="com.csg.otex.guibe.integration.BusObj"/>
+    </jxb:bindings>
+</jxb:bindings>
