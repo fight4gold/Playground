@@ -47,7 +47,7 @@ public class DisruptorMainTest {
 
     @Test
     public void testDslWiring() throws InterruptedException {
-        mockDisruptorClasses();
+        //mockDisruptorClasses();
 
         //--------------------------------------------------------------------------------------------------------------
         // Setup Disruptor
@@ -85,7 +85,7 @@ public class DisruptorMainTest {
         Thread.sleep(1000);
     }
 
-    private void mockDisruptorClasses() {
+    private void _mockDisruptorClasses() {
         new MockUp<BatchEventProcessor>() {
             @Mock public Sequence getSequence(Invocation invocation) {
                 Sequence sequence = invocation.proceed();
