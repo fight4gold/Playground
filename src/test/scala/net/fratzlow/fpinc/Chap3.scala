@@ -24,14 +24,25 @@ object Chap3 {
     def drop[A]( xs: List[A], n: Int) : List[A] = {
         if ( n == 0 ) xs
         else xs match {
-            case Nil    => Nil
+            case Nil   => Nil
             case h::t  => drop( t, n - 1)
         }
     }
 
     @tailrec
-    def dropWhile[A]( xs: List[A], predicate: A => Boolean ) : List[A] = xs match {
-        case h :: t if predicate.apply(h) => dropWhile( t, predicate )
+    def dropWhile[A]( xs: List[A])(predicate: A => Boolean) : List[A] = xs match {
+        case h :: t if predicate.apply(h) => dropWhile(t)(predicate)
         case _                            => xs
+    }
+
+
+    def init[A]( xs: List[A] ) : List[A] = {
+        @tailrec
+        def collect( as: List[A], bs: List[A] ) : List[A] = as match {
+            case Nil        => Nil
+            case x :: Nil   => bs
+            case h :: t     => collect( t, bs ::: h :: Nil )
+        }
+        collect( xs, Nil )
     }
 }

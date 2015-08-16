@@ -11,6 +11,12 @@ import org.scalatest.{Matchers, FlatSpec}
 class Chap3Test extends FlatSpec with Matchers {
 
     "tail" should "return all elements except the head" in {
+        def assertTail[R] (f: () => R) : Unit = {
+            intercept[UnsupportedOperationException] {
+                f.apply()
+            }
+        }
+
         val l = List(1,2,3,4,5)
         assert ( l.tail === Chap3.tail(l) )
 
@@ -33,15 +39,14 @@ class Chap3Test extends FlatSpec with Matchers {
     }
 
     "dropWhile" should "remove elems as long as predicate is true" in {
-        assert( List(6,7) == Chap3.dropWhile(List(4,5,6,7), (n: Int) => n <= 5 ) )
-        assert( Nil == Chap3.dropWhile(List(6,7,8), (n: Int) => n < 10 ) )
-        assert( Nil == Chap3.dropWhile(Nil, (n: Int) => n > 5 ) )
+        assert( List(6,7) == Chap3.dropWhile(List(4,5,6,7)) {_ < 6 } )
+        assert( Nil == Chap3.dropWhile(List(6,7,8)) { _ < 10 } )
+        assert( Nil == Chap3.dropWhile(Nil:List[Int]) { _ > 5} )
     }
 
-
-    def assertTail[R] (f: () => R) : Unit = {
-        intercept[UnsupportedOperationException] {
-            f.apply()
-        }
+    "init" should "return all but the last elem" in {
+        assert( List(4,5,6) == Chap3.init(List(4,5,6,7) ) )
+        assert( Nil == Chap3.init(List(4) ) )
+        assert( Nil == Chap3.init(Nil ) )
     }
 }
